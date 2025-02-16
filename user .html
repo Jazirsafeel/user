@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Data Storage</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        input { display: block; margin: 10px auto; padding: 10px; width: 250px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Enter Your Details</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button onclick="saveToFirebase()">Save to Database</button>
+
+    <script>
+        // 🔥 Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAXpK-8Zz-Cb_YpOzwn6pOmvnx5uF-A65s",
+            authDomain: "userdata-7ae0f.firebaseapp.com",
+            projectId: "userdata-7ae0f",
+            storageBucket: "userdata-7ae0f.firebasestorage.app",
+            messagingSenderId: "73007524130",
+            appId: "1:73007524130:web:e968671ace884489cd9d7b",
+            measurementId: "G-EYJCECS9PZ"
+        };
+
+        // 🔹 Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function saveToFirebase() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+
+            if (!username || !password || !email) {
+                alert("All fields are required!");
+                return;
+            }
+
+            db.collection("users").add({
+                username: username,
+                password: password,
+                email: email
+            })
+            .then(() => {
+                alert("Data saved to Firebase!");
+            })
+            .catch(error => {
+                console.error("Error saving data:", error);
+            });
+        }
+    </script>
+</body>
+</html>
